@@ -1,0 +1,46 @@
+@model IEnumerable<ASSC.Models.Invoice>
+
+<h2>Счета</h2>
+
+<a href="/Invoices/Create">
+Создать счет
+</a>
+
+<table class="table">
+
+<tr>
+<th>Договор</th>
+<th>Сумма</th>
+<th>Дата счета</th>
+<th>Срок оплаты</th>
+<th>Статус</th>
+</tr>
+
+@foreach(var item in Model)
+{
+<tr>
+
+<td>
+@item.Contract?.Number
+</td>
+
+<td>
+@item.Amount
+</td>
+
+<td>
+@item.IssueDate.ToShortDateString()
+</td>
+
+<td>
+@item.DueDate.ToShortDateString()
+</td>
+
+<td>
+@item.Status
+</td>
+
+</tr>
+}
+
+</table>

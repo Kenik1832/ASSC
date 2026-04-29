@@ -1,0 +1,67 @@
+@model ASSC.ViewModels.DashboardViewModel
+
+<h1>Dashboard</h1>
+
+<hr>
+
+<h3>
+Общая задолженность:
+@Model.TotalDebt
+</h3>
+
+<h3>
+Просроченные счета:
+@Model.OverdueInvoicesCount
+</h3>
+
+<h3>
+Договоров:
+@Model.ContractsCount
+</h3>
+
+<h3>
+Поставщиков:
+@Model.SuppliersCount
+</h3>
+
+<hr>
+
+<h2>Последние платежи</h2>
+
+<table class="table">
+
+<tr>
+<th>Сумма</th>
+<th>Дата</th>
+</tr>
+
+@foreach(var item in Model.RecentPayments)
+{
+<tr>
+
+<td>
+@item.Amount
+</td>
+
+<td>
+@item.PaymentDate
+</td>
+
+</tr>
+}
+
+</table>
+
+<hr>
+
+<h3>Отчёты</h3>
+
+<a href="/Reports/Invoices">
+Экспорт счетов (Excel)
+</a>
+
+<br/>
+
+<a href="/Reports/Payments">
+Экспорт платежей (Excel)
+</a>

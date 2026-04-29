@@ -1,0 +1,10 @@
+@model ASSC.Models.Supplier
+
+<h2>Удалить?</h2>
+
+<p>@Model.Name</p>
+
+<form method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit">Удалить</button>
+</form>

@@ -1,0 +1,43 @@
+@model ASSC.Models.Invoice
+
+<h2>Новый счет</h2>
+
+<form method="post">
+
+<div>
+<label>Договор</label>
+
+<select asp-for="ContractId"
+asp-items="ViewBag.Contracts">
+</select>
+
+</div>
+
+<div>
+<label>Сумма</label>
+
+<input asp-for="Amount"/>
+
+</div>
+
+<div>
+<label>Дата счета</label>
+
+<input asp-for="IssueDate"
+type="date"/>
+
+</div>
+
+<div>
+<label>Срок оплаты</label>
+
+<input asp-for="DueDate"
+type="date"/>
+
+</div>
+
+<button type="submit">
+Сохранить
+</button>
+
+</form>

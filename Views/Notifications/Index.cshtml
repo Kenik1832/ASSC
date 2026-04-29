@@ -1,0 +1,32 @@
+@model IEnumerable<ASSC.Models.Notification>
+
+<h2>Уведомления</h2>
+
+<table class="table">
+
+<tr>
+<th>Сообщение</th>
+<th>Дата</th>
+<th>Прочитано</th>
+</tr>
+
+@foreach(var item in Model)
+{
+<tr>
+
+<td>
+@item.Message
+</td>
+
+<td>
+@item.DateCreated
+</td>
+
+<td>
+@(item.IsRead ? "Да":"Нет")
+</td>
+
+</tr>
+}
+
+</table>

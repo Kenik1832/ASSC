@@ -1,0 +1,37 @@
+@model ASSC.ViewModels.RegisterViewModel
+
+<h2>Регистрация</h2>
+
+<form method="post">
+
+<div>
+<input asp-for="Email"
+placeholder="Email"/>
+</div>
+
+<div>
+<input asp-for="Password"
+type="password"
+placeholder="Пароль"/>
+</div>
+
+<div>
+
+<select asp-for="Role">
+<option>
+Supplier
+</option>
+
+<option>
+Contractor
+</option>
+
+</select>
+
+</div>
+
+<button type="submit">
+Регистрация
+</button>
+
+</form>

@@ -1,0 +1,36 @@
+@model IEnumerable<ASSC.Models.Payment>
+
+<h2>Платежи</h2>
+
+<a href="/Payments/Create">
+Добавить платеж
+</a>
+
+<table class="table">
+
+<tr>
+<th>Счет</th>
+<th>Сумма</th>
+<th>Дата оплаты</th>
+</tr>
+
+@foreach(var item in Model)
+{
+<tr>
+
+<td>
+@item.InvoiceId
+</td>
+
+<td>
+@item.Amount
+</td>
+
+<td>
+@item.PaymentDate.ToShortDateString()
+</td>
+
+</tr>
+}
+
+</table>

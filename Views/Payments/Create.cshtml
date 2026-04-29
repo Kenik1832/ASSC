@@ -1,0 +1,35 @@
+@model ASSC.Models.Payment
+
+<h2>Новый платеж</h2>
+
+<form method="post">
+
+<div>
+<label>Счет</label>
+
+<select asp-for="InvoiceId"
+asp-items="ViewBag.Invoices">
+</select>
+
+</div>
+
+<div>
+<label>Сумма оплаты</label>
+
+<input asp-for="Amount"/>
+
+</div>
+
+<div>
+<label>Дата платежа</label>
+
+<input asp-for="PaymentDate"
+type="date"/>
+
+</div>
+
+<button type="submit">
+Сохранить
+</button>
+
+</form>
