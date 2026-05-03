@@ -1,12 +1,12 @@
-@model ASSC.ViewModels.RegisterViewModel
+@model ASSC.ViewModels.LoginViewModel
 
 <div class="d-flex justify-content-center align-items-center" style="min-height:80vh;">
 
     <div class="card shadow p-4" style="width:400px; border-radius:12px;">
 
-        <h3 class="text-center mb-4">Регистрация</h3>
+        <h3 class="text-center mb-4">Вход</h3>
 
-        <!-- 🔔 Уведомления ВНУТРИ карточки -->
+        <!-- 🔔 Уведомления сверху -->
         @if (TempData["Success"] != null)
         {
             <div class="alert alert-success">
@@ -50,43 +50,20 @@
                       class="text-danger"></span>
             </div>
 
-            <!-- Role -->
-            <div class="mb-3">
-                <label class="form-label">Роль</label>
+            <div class="d-grid gap-2">
 
-                <select asp-for="Role"
-                        class="form-select">
+                <button type="submit" class="btn btn-primary">
+                    Войти
+                </button>
 
-                    <option value="Supplier">
-                        Поставщик
-                    </option>
+                <a href="/Account/Register"
+                   class="btn btn-outline-secondary">
+                    Регистрация
+                </a>
 
-                    <option value="Contractor">
-                        Подрядчик
-                    </option>
-
-                </select>
-
-                <span asp-validation-for="Role"
-                      class="text-danger"></span>
             </div>
 
-            <!-- Button -->
-            <button type="submit"
-                    class="btn btn-primary w-100">
-                Создать аккаунт
-            </button>
-
         </form>
-
-        <!-- 🔗 Переход на вход -->
-        <div class="text-center mt-3">
-            <a href="/Account/Login">
-                Уже есть аккаунт?
-            </a>
-        </div>
-        
-        <div asp-validation-summary="All" class="text-danger"></div>
 
     </div>
 

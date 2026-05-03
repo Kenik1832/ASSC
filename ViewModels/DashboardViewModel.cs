@@ -14,5 +14,11 @@ namespace ASSC.ViewModels
 
         public List<Payment> RecentPayments { get; set; }
             = new();
+        
+        public List<string> Months { get; set; } = new();
+
+        public List<decimal> PaymentsData { get; set; } = new();
+        
+        public List<decimal> DebtData { get; set; } = new();
     }
 }

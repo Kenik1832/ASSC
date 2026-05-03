@@ -18,7 +18,7 @@ namespace ASSC.Services
             _context = context;
         }
 
-        public string GetUserId()
+        public string? GetUserId()
         {
             return _http.HttpContext?
                 .User?

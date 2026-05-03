@@ -2,41 +2,19 @@
 
 <h2>Новый счет</h2>
 
-<form method="post">
+<form method="post" class="card p-4">
 
-<div>
-<label>Договор</label>
-
-<select asp-for="ContractId"
-asp-items="ViewBag.Contracts">
-</select>
-
+<div class="mb-3">
+<label class="form-label">Сумма</label>
+<input asp-for="Amount" class="form-control"/>
 </div>
 
-<div>
-<label>Сумма</label>
-
-<input asp-for="Amount"/>
-
+<div class="mb-3">
+<label class="form-label">Дата</label>
+<input asp-for="IssueDate" type="date" class="form-control"/>
 </div>
 
-<div>
-<label>Дата счета</label>
-
-<input asp-for="IssueDate"
-type="date"/>
-
-</div>
-
-<div>
-<label>Срок оплаты</label>
-
-<input asp-for="DueDate"
-type="date"/>
-
-</div>
-
-<button type="submit">
+<button class="btn btn-primary">
 Сохранить
 </button>
 

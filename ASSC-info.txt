@@ -13,6 +13,8 @@ ASSC -  automation of settlements with suppliers and contractors
         dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore --version 8.0
         dotnet add package ClosedXML 
 
+        dotnet tool install --global dotnet-ef  --- для работы ef
+
 Создание БД:
         dotnet ef migrations add InitialCreate
         dotnet ef database update               --- Создание БД в SqlServer

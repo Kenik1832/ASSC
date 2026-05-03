@@ -26,7 +26,19 @@ namespace ASSC.Controllers
             int overdueCount = 0;
 
             var invoices = await _context.Invoices
+                .Include(i => i.Payments) 
                 .ToListAsync();
+
+            var debtByMonth = invoices
+            .GroupBy(i => i.IssueDate.Month)
+            .Select(g => new
+            {
+                Month = g.Key,
+                Total = g.Sum(i =>
+                    i.Amount - i.Payments.Sum(p => p.Amount))
+            })
+            .OrderBy(x => x.Month)
+            .ToList();    
 
             foreach(var invoice in invoices)
             {
@@ -42,6 +54,16 @@ namespace ASSC.Controllers
                     overdueCount++;
             }
 
+            var paymentsByMonth = await _context.Payments
+            .GroupBy(p => new { p.PaymentDate.Year, p.PaymentDate.Month })
+            .Select(g => new
+            {
+                Month = g.Key.Month,
+                Total = g.Sum(x => x.Amount)
+            })
+            .OrderBy(x => x.Month)
+            .ToListAsync();
+
             var vm = new DashboardViewModel
             {
                 TotalDebt = totalDebt,
@@ -49,20 +71,24 @@ namespace ASSC.Controllers
                 OverdueInvoicesCount =
                     overdueCount,
 
-                ContractsCount =
-                    await _context.Contracts
-                        .CountAsync(),
-
-                SuppliersCount =
-                    await _context.Suppliers
-                        .CountAsync(),
-
-                RecentPayments =
-                    await _context.Payments
-                       .OrderByDescending(
-                           p=>p.PaymentDate)
+                ContractsCount = await _context.Contracts.CountAsync(),
+                SuppliersCount = await _context.Suppliers.CountAsync(),
+                RecentPayments = await _context.Payments
+                       .OrderByDescending(p => p.PaymentDate)
                        .Take(5)
-                       .ToListAsync()
+                       .ToListAsync(),
+
+                Months = paymentsByMonth
+                    .Select(x => x.Month.ToString())
+                    .ToList(),
+
+                PaymentsData = paymentsByMonth
+                    .Select(x => x.Total)
+                    .ToList(),
+
+                DebtData = debtByMonth
+                    .Select(x => x.Total)
+                    .ToList()
             };
 
             return View(vm);

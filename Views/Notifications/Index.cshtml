@@ -12,21 +12,9 @@
 
 @foreach(var item in Model)
 {
-<tr>
-
-<td>
+<div class="alert alert-warning">
 @item.Message
-</td>
-
-<td>
-@item.DateCreated
-</td>
-
-<td>
-@(item.IsRead ? "Да":"Нет")
-</td>
-
-</tr>
+</div>
 }
 
 </table>

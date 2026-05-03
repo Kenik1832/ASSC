@@ -7,12 +7,12 @@ namespace ASSC.Models
         public int Id { get; set; }
         
         [Required]
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
         [Required]
-        public string INN { get; set; }
+        public string INN { get; set; } = null!;
         
-        public string ContactInfo { get; set; }
+        public string ContactInfo { get; set; } = null!;
         
         public ICollection<Contract> Contracts { get; set; }
             = new List<Contract>();

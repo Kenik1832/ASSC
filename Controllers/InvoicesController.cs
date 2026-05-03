@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using ASSC.Services;
 using ASSC.Data;
 using ASSC.Models;
+using ASSC.ViewModels;
 
 namespace ASSC.Controllers
 {
@@ -22,7 +23,8 @@ namespace ASSC.Controllers
         }
         
         // список счетов
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(
+            InvoiceFilterViewModel filter)
         {
             var userId = 
                 User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
@@ -30,11 +32,15 @@ namespace ASSC.Controllers
             var user =
                 await _context.Users
                 .FirstOrDefaultAsync(u => u.Id == userId);
+                
+                if (user == null)
+                    return NotFound();
 
             var query = _context.Invoices
                 .Include(i => i.Contract)
                 .AsQueryable();
 
+            // 🔐 фильтрация по пользователю
             if (user.SupplierId != null)
             {
                 query = query.Where(i =>
@@ -47,7 +53,56 @@ namespace ASSC.Controllers
                     i.Contract.ContractorId == user.ContractorId);
             }
 
+            // 🔎 ПОИСК
+            if (!string.IsNullOrEmpty(filter.Search))
+            {
+                query = query.Where(i =>
+                    i.Contract.Number.Contains(filter.Search));
+            }
+        
+            // 📅 ДАТЫ
+            if (filter.IssueDateFrom.HasValue)
+            {
+                query = query.Where(i =>
+                    i.IssueDate >= filter.IssueDateFrom);
+            }
+        
+            if (filter.IssueDateTo.HasValue)
+            {
+                query = query.Where(i =>
+                    i.IssueDate <= filter.IssueDateTo);
+            }
+        
+            // 💰 СУММА
+            if (filter.MinAmount.HasValue)
+            {
+                query = query.Where(i =>
+                    i.Amount >= filter.MinAmount);
+            }
+        
+            if (filter.MaxAmount.HasValue)
+            {
+                query = query.Where(i =>
+                    i.Amount <= filter.MaxAmount);
+            }
+        
             var invoices = await query.ToListAsync();
+        
+            // статус считаем через сервис
+            foreach (var i in invoices)
+            {
+                i.Status =
+                    await _financeService
+                        .GetStatusAsync(i.Id);
+            }
+        
+            // 📊 фильтр по статусу
+            if (!string.IsNullOrEmpty(filter.Status))
+            {
+                invoices = invoices
+                    .Where(i => i.Status == filter.Status)
+                    .ToList();
+            }
 
             return View(invoices);
         }

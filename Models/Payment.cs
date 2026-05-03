@@ -8,7 +8,7 @@ namespace ASSC.Models
 
         public int InvoiceId { get; set; }
 
-        public Invoice Invoice { get; set; }
+        public Invoice Invoice { get; set; } = null!;
 
         [Required]
         public decimal Amount { get; set; }

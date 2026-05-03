@@ -8,7 +8,7 @@ namespace ASSC.Models
 
         public int ContractId { get; set; }
 
-        public Contract Contract { get; set; }
+        public Contract Contract { get; set; } = null!;
 
         [Required]
         public decimal Amount { get; set; }
@@ -17,8 +17,8 @@ namespace ASSC.Models
 
         public DateTime DueDate { get; set; }
 
-        public string Status { get; set; }
-
+        public string Status { get; set; } = null!;
+ 
         public ICollection<Payment> Payments { get; set; }
             = new List<Payment>();
     }

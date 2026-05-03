@@ -78,6 +78,10 @@ namespace ASSC.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var supplier = await _context.Suppliers.FindAsync(id);
+            
+            if (supplier == null)
+                return NotFound();
+            
             _context.Suppliers.Remove(supplier);
             await _context.SaveChangesAsync();
 

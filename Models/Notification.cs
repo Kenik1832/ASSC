@@ -6,10 +6,10 @@ namespace ASSC.Models
     {
         public int Id { get; set; }
 
-        public string UserId { get; set; }
+        public string UserId { get; set; } = null!;
 
         [Required]
-        public string Message { get; set; }
+        public string Message { get; set; } = null!;
 
         public bool IsRead { get; set; }
 

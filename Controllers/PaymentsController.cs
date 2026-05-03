@@ -26,6 +26,9 @@ namespace ASSC.Controllers
             var user =
                 await _context.Users
                 .FirstOrDefaultAsync(u => u.Id == userId);
+                
+                if (user == null)
+                    return NotFound();
 
             var query = _context.Payments
                 .Include(p => p.Invoice)
