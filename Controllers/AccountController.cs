@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 using ASSC.Models;
 using ASSC.ViewModels;
 
 namespace ASSC.Controllers
 {
+    [AllowAnonymous]
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -43,6 +45,8 @@ namespace ASSC.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
+            var email = model.Email?.Trim();
+
             if (!await _roleManager.RoleExistsAsync(model.Role))
             {
                 await _roleManager.CreateAsync(
@@ -51,8 +55,8 @@ namespace ASSC.Controllers
 
             var user = new ApplicationUser
             {
-                UserName = model.Email,
-                Email = model.Email
+                UserName = email,
+                Email = email
             };
 
             var result = await _userManager.CreateAsync(
@@ -83,21 +87,44 @@ namespace ASSC.Controllers
 
         
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
                 return View(model);
 
-            var result = await _signInManager.PasswordSignInAsync(
-                model.Email,
+            var email = model.Email?.Trim() ?? string.Empty;
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                TempData["Error"] = "Неверный логин или пароль";
+                return View(model);
+            }
+
+            var passwordCheck = await _signInManager.CheckPasswordSignInAsync(
+                user,
                 model.Password,
-                false,
                 false);
 
-            if (result.Succeeded)
+            if (passwordCheck.Succeeded)
+            {
+                await _signInManager.SignInAsync(user, false);
                 return RedirectToAction("Index", "Dashboard");
-            
-            // ❗ только здесь ошибка
+            }
+
+            if (passwordCheck.IsLockedOut)
+            {
+                TempData["Error"] = "Учетная запись заблокирована. Попробуйте позже.";
+                return View(model);
+            }
+
+            if (passwordCheck.IsNotAllowed)
+            {
+                TempData["Error"] = "Вход запрещен. Проверьте настройки учетной записи.";
+                return View(model);
+            }
+
             TempData["Error"] = "Неверный логин или пароль";
             return View(model);
         }
@@ -105,6 +132,18 @@ namespace ASSC.Controllers
         public IActionResult Login()
         {
             return View();
+        }
+
+        public IActionResult Index()
+        {
+            return RedirectToAction("Login");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 
 using ASSC.Data;
@@ -8,6 +9,7 @@ using ASSC.Models;
 
 namespace ASSC.Controllers
 {
+    [Authorize]
     public class PaymentsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -28,7 +30,7 @@ namespace ASSC.Controllers
                 .FirstOrDefaultAsync(u => u.Id == userId);
                 
                 if (user == null)
-                    return NotFound();
+                    return View(new List<Payment>());
 
             var query = _context.Payments
                 .Include(p => p.Invoice)

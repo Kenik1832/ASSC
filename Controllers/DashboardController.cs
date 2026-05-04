@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 using ASSC.Data;
 using ASSC.Services;
@@ -7,6 +8,7 @@ using ASSC.ViewModels;
 
 namespace ASSC.Controllers
 {
+    [Authorize]
     public class DashboardController : Controller
     {
         private readonly ApplicationDbContext _context;

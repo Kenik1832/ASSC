@@ -19,56 +19,80 @@
 
 <div class="d-flex">
 
-    <!-- Sidebar -->
-    <div class="bg-dark text-white p-3" style="width:250px; min-height:100vh;">
+    @if (User?.Identity?.IsAuthenticated == true)
+    {
+        <!-- Sidebar -->
+        <div class="bg-dark text-white p-3" style="width:250px; min-height:100vh;">
 
-        <h4 class="mb-3">ASSC CRM</h4>
-        <hr>
+            <h4 class="mb-3">ASSC CRM</h4>
+            <hr>
 
-        <ul class="nav flex-column">
+            <ul class="nav flex-column">
 
-            <li class="nav-item">
-                <a class="nav-link text-white" href="/Dashboard">Dashboard</a>
-            </li>
+                @if (User.IsInRole("Admin"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/Suppliers">Поставщики</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/Contractors">Подрядчики</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/Contracts">Договоры</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/Invoices">Счета</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/Payments">Платежи</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/Notifications">Уведомления</a>
+                    </li>
+                }
+                else if (User.IsInRole("Supplier"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/Contracts">Договоры</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/Invoices">Счета</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/Payments">Платежи</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/Notifications">Уведомления</a>
+                    </li>
+                }
+                else if (User.IsInRole("Contractor"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/Contracts">Договоры</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/Invoices">Выставленные счета</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/Notifications">Уведомления</a>
+                    </li>
+                }
 
-            <li class="nav-item">
-                <a class="nav-link text-white" href="/Suppliers">Поставщики</a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="/Reports/Invoices">Отчеты</a>
+                </li>
 
-            <li class="nav-item">
-                <a class="nav-link text-white" href="/Contractors">Подрядчики</a>
-            </li>
+            </ul>
 
-            <li class="nav-item">
-                <a class="nav-link text-white" href="/Contracts">Договоры</a>
-            </li>
+            <hr>
 
-            <li class="nav-item">
-                <a class="nav-link text-white" href="/Invoices">Счета</a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link text-white" href="/Payments">Платежи</a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link text-white" href="/Notifications">Уведомления</a>
-            </li>
-
-        </ul>
-
-        <hr>
-
-        <!-- AUTH LINKS -->
-        <div>
-
-            <a class="nav-link text-white" href="/Account/Login">Вход</a>
-
-            <a class="nav-link text-white" href="/Account/Register">Регистрация</a>
+            <!-- Logout -->
+            <form asp-controller="Account" asp-action="Logout" method="post">
+                <button type="submit" class="btn btn-outline-light btn-sm">Выход</button>
+            </form>
 
         </div>
-
-    </div>
+    }
 
     <!-- Content -->
     <div class="flex-grow-1 p-4">

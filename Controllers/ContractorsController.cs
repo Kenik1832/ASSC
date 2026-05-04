@@ -1,10 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+
 using ASSC.Data;
 using ASSC.Models;
 
 namespace ASSC.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ContractorsController : Controller
     {
         private readonly ApplicationDbContext _context;

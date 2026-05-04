@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 using ASSC.Services;
 using ASSC.Data;
@@ -9,6 +10,7 @@ using ASSC.ViewModels;
 
 namespace ASSC.Controllers
 {
+    [Authorize]
     public class InvoicesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -34,7 +36,7 @@ namespace ASSC.Controllers
                 .FirstOrDefaultAsync(u => u.Id == userId);
                 
                 if (user == null)
-                    return NotFound();
+                    return View(new List<Invoice>());
 
             var query = _context.Invoices
                 .Include(i => i.Contract)

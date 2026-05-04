@@ -1,13 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 using ASSC.Data;
 using ASSC.Services;
 
 namespace ASSC.Controllers
 {
-    public class NotificationsController
-        : Controller
+    [Authorize]
+    public class NotificationsController : Controller
     {
         private readonly ApplicationDbContext
             _context;
