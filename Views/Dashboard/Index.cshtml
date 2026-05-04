@@ -1,0 +1,126 @@
+@model ASSC.ViewModels.DashboardViewModel
+
+<h1>Dashboard</h1>
+
+<div class="row">
+
+    <div class="col-md-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h5>Задолженность</h5>
+                <h3>@Model.TotalDebt</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card bg-danger text-white">
+            <div class="card-body">
+                <h5>Просрочено</h5>
+                <h3>@Model.OverdueInvoicesCount</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h5>Договоры</h5>
+                <h3>@Model.ContractsCount</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card bg-dark text-white">
+            <div class="card-body">
+                <h5>Поставщики</h5>
+                <h3>@Model.SuppliersCount</h3>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<table class="table">
+
+<tr>
+<th>Сумма</th>
+<th>Дата</th>
+</tr>
+
+@foreach(var item in Model.RecentPayments)
+{
+<tr>
+
+<td>
+@item.Amount
+</td>
+
+<td>
+@item.PaymentDate
+</td>
+
+</tr>
+}
+
+</table>
+
+<hr>
+
+<h2>Графики</h2>
+
+<canvas id="paymentsChart"></canvas>
+<canvas id="debtChart"></canvas>
+
+<script>
+
+const months = @Html.Raw(
+    System.Text.Json.JsonSerializer.Serialize(Model.Months)
+);
+
+const paymentsData = @Html.Raw(
+    System.Text.Json.JsonSerializer.Serialize(Model.PaymentsData)
+);
+
+const debtData = @Html.Raw(
+    System.Text.Json.JsonSerializer.Serialize(Model.DebtData)
+);
+
+// 💰 Платежи
+new Chart(document.getElementById('paymentsChart'), {
+    type: 'bar',
+    data: {
+        labels: months,
+        datasets: [{
+            label: 'Платежи',
+            data: paymentsData
+        }]
+    }
+});
+
+// 📊 Долги
+new Chart(document.getElementById('debtChart'), {
+    type: 'line',
+    data: {
+        labels: months,
+        datasets: [{
+            label: 'Долги',
+            data: debtData
+        }]
+    }
+});
+
+</script>
+
+<h3>Отчёты</h3>
+
+<a href="/Reports/Invoices">
+Экспорт счетов (Excel)
+</a>
+
+<br/>
+
+<a href="/Reports/Payments">
+Экспорт платежей (Excel)
+</a>

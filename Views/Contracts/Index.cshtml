@@ -1,0 +1,43 @@
+@model IEnumerable<ASSC.Models.Contract>
+
+<h2>Договоры</h2>
+
+<a href="/Contracts/Create">
+Создать договор
+</a>
+
+<table class="table">
+
+<tr>
+<th>Номер</th>
+<th>Поставщик</th>
+<th>Подрядчик</th>
+<th>Начало</th>
+<th>Конец</th>
+</tr>
+
+@foreach(var item in Model)
+{
+<tr>
+<td>@item.Number</td>
+
+<td>
+@item.Supplier?.Name
+</td>
+
+<td>
+@item.Contractor?.Name
+</td>
+
+<td>
+@item.StartDate.ToShortDateString()
+</td>
+
+<td>
+@item.EndDate.ToShortDateString()
+</td>
+
+</tr>
+}
+
+</table>

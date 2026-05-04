@@ -1,0 +1,13 @@
+@model ASSC.Models.Supplier
+
+<h2>Редактирование</h2>
+
+<form method="post">
+    <input asp-for="Id" type="hidden" />
+
+    <input asp-for="Name" />
+    <input asp-for="INN" />
+    <input asp-for="ContactInfo" />
+
+    <button type="submit">Обновить</button>
+</form>

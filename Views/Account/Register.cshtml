@@ -1,0 +1,97 @@
+@model ASSC.ViewModels.RegisterViewModel
+
+<div class="d-flex justify-content-center align-items-center" style="min-height:80vh;">
+
+    <div class="card shadow p-4" style="width:400px; border-radius:12px;">
+
+        <h3 class="text-center mb-4">Регистрация</h3>
+
+        <!-- 🔔 Уведомления ВНУТРИ карточки -->
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["Success"]
+            </div>
+        }
+
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["Error"]
+            </div>
+        }
+
+        <form method="post">
+
+            @Html.AntiForgeryToken()
+
+            <!-- Email -->
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+
+                <input asp-for="Email"
+                       class="form-control"
+                       placeholder="example@mail.com" />
+
+                <span asp-validation-for="Email"
+                      class="text-danger"></span>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+                <label class="form-label">Пароль</label>
+
+                <input asp-for="Password"
+                       type="password"
+                       class="form-control"
+                       placeholder="••••••••" />
+
+                <span asp-validation-for="Password"
+                      class="text-danger"></span>
+            </div>
+
+            <!-- Role -->
+            <div class="mb-3">
+                <label class="form-label">Роль</label>
+
+                <select asp-for="Role"
+                        class="form-select">
+
+                    <option value="Supplier">
+                        Поставщик
+                    </option>
+
+                    <option value="Contractor">
+                        Подрядчик
+                    </option>
+
+                </select>
+
+                <span asp-validation-for="Role"
+                      class="text-danger"></span>
+            </div>
+
+            <!-- Button -->
+            <button type="submit"
+                    class="btn btn-primary w-100">
+                Создать аккаунт
+            </button>
+
+        </form>
+
+        <!-- 🔗 Переход на вход -->
+        <div class="text-center mt-3">
+            <a href="/Account/Login">
+                Уже есть аккаунт?
+            </a>
+        </div>
+        
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

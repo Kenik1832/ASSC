@@ -1,0 +1,21 @@
+ASSC -  automation of settlements with suppliers and contractors
+        автоматизация расчетов с поставщиками и подрядчиками
+
+есть связи папок 
+        Services / ViewModels / Data => Controllers
+        Controllers => Views
+        
+
+Пакеты:
+        dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 8.0
+        dotnet add package Microsoft.EntityFrameworkCore.Tools --version 8.0
+        dotnet add package Microsoft.EntityFrameworkCore.Design --version 8.0
+        dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore --version 8.0
+        dotnet add package ClosedXML 
+
+        dotnet tool install --global dotnet-ef  --- для работы ef
+
+Создание БД:
+        dotnet ef migrations add InitialCreate
+        dotnet ef database update               --- Создание БД в SqlServer
+

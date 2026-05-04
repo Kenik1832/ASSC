@@ -1,0 +1,28 @@
+@model ASSC.Models.Contractor
+
+<h2>Редактирование</h2>
+
+<form method="post">
+
+<input type="hidden" asp-for="Id" />
+
+<div>
+<label>Название</label>
+<input asp-for="Name" />
+</div>
+
+<div>
+<label>ИНН</label>
+<input asp-for="INN" />
+</div>
+
+<div>
+<label>Контакты</label>
+<input asp-for="ContactInfo" />
+</div>
+
+<button type="submit">
+Обновить
+</button>
+
+</form>

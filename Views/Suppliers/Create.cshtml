@@ -1,0 +1,11 @@
+@model ASSC.Models.Supplier
+
+<h2>Создать поставщика</h2>
+
+<form method="post">
+    <input asp-for="Name" placeholder="Название" />
+    <input asp-for="INN" placeholder="ИНН" />
+    <input asp-for="ContactInfo" placeholder="Контакты" />
+
+    <button type="submit">Сохранить</button>
+</form>

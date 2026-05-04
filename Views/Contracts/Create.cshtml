@@ -1,0 +1,46 @@
+@model ASSC.Models.Contract
+
+<h2>Новый договор</h2>
+
+<form method="post">
+
+<div>
+<label>Номер договора</label>
+<input asp-for="Number"/>
+</div>
+
+<div>
+<label>Дата начала</label>
+<input asp-for="StartDate"
+type="date"/>
+</div>
+
+<div>
+<label>Дата окончания</label>
+<input asp-for="EndDate"
+type="date"/>
+</div>
+
+<div>
+<label>Поставщик</label>
+
+<select asp-for="SupplierId"
+asp-items="ViewBag.Suppliers">
+</select>
+
+</div>
+
+<div>
+<label>Подрядчик</label>
+
+<select asp-for="ContractorId"
+asp-items="ViewBag.Contractors">
+</select>
+
+</div>
+
+<button type="submit">
+Сохранить
+</button>
+
+</form>

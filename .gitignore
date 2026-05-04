@@ -1,0 +1,27 @@
+﻿# Build output
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider
+.idea/
+
+# NuGet packages
+*.nupkg
+packages/
+*.snupkg
+
+# VS Code
+.vscode/
+
+# Logs and temp files
+*.log
+*.db
+*.cache
+*.bak

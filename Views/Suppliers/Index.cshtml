@@ -1,0 +1,27 @@
+@model IEnumerable<ASSC.Models.Supplier>
+
+<h2>Поставщики</h2>
+
+<a href="/Suppliers/Create">Создать</a>
+
+<table class="table">
+    <tr>
+        <th>Название</th>
+        <th>ИНН</th>
+        <th>Контакты</th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>@item.Name</td>
+        <td>@item.INN</td>
+        <td>@item.ContactInfo</td>
+        <td>
+            <a href="/Suppliers/Edit/@item.Id">Edit</a> |
+            <a href="/Suppliers/Delete/@item.Id">Delete</a>
+        </td>
+    </tr>
+}
+</table>
