@@ -40,6 +40,12 @@ namespace ASSC.Data
                 "pod@mail.ru",
                 "Po4cx3h5!",
                 "Contractor");
+            
+            var supplierUser = await EnsureUserAsync(
+                userManager,
+                "pos@mail.ru",
+                "Po4cx3h5!", 
+                "Supplier");
 
             if (!context.Suppliers.Any())
             {
@@ -100,6 +106,11 @@ namespace ASSC.Data
             {
                 contractorUser.ContractorId = contractor.Id;
                 await userManager.UpdateAsync(contractorUser);
+            }
+            if (supplierUser != null && supplierUser.SupplierId == null)
+            {
+                supplierUser.SupplierId = supplier.Id;
+                await userManager.UpdateAsync(supplierUser);
             }
         }
 
