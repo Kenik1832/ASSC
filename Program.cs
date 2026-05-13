@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Data.SqlClient;
 
 using ASSC.Data;
 using ASSC.Services;
@@ -26,10 +27,57 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddDefaultTokenProviders();
 
 // DbContext
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection")
-    ));
+// builder.Services.AddDbContext<ApplicationDbContext>(options =>
+//     options.UseSqlServer(
+//         builder.Configuration.GetConnectionString("DefaultConnection")
+//     ));
+
+
+
+var provider = builder.Configuration["DatabaseProvider"];
+
+string[] connections =
+{
+    builder.Configuration.GetConnectionString("SqlServerConnection"),
+    builder.Configuration.GetConnectionString("ExpressConnection"),
+    builder.Configuration.GetConnectionString("LocalDBConnection")
+};
+
+string? workingConnection = null;
+
+foreach (var conn in connections)
+{
+    try
+    {
+        using var sqlConnection = new SqlConnection(conn);
+        sqlConnection.Open();
+
+        workingConnection = conn;
+        System.Console.WriteLine($"Подключено к: {conn}");
+
+        break;
+    }
+    catch
+    {
+        System.Console.WriteLine($"Не удалось подключиться: {conn}");
+    }
+}
+
+if (workingConnection == null)
+{
+    throw new Exception("Не удалось найти доступный SQL Server");
+}
+
+builder.Services.AddDbContext<AppDbContext>(options => 
+    options.UseSqlServer(workingConnection));
+
+
+
+
+
+
+
+
 
 
 
